@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
@@ -115,9 +117,9 @@ public class JsonUtil {
 		JSONObject jsonObj;
 		try {
 			// 将json字符串转换为json对象
-			jsonObj = new JSONObject().getJSONObject(jsonStr);
+			jsonObj = JSONObject.fromObject(jsonStr);
 			// 得到指定json key对象的value对象
-			JSONArray personList = jsonObj.getJSONArray("persons");
+			JSONArray personList = jsonObj.getJSONArray("person");
 			// 遍历jsonArray
 			for (int i = 0; i < personList.size(); i++) {
 				// 获取每一个json对象
@@ -147,10 +149,61 @@ public class JsonUtil {
 		String value = "zhangsan";
 		String json = JsonUtil.createJsonString(key, value);
 		System.out.println(json);
-		String jsonStr1="{\"person\":{\"loginname\":\"zhangfan\",\"password\":\"userpass\",\"email\":\"10371443@qq.com\"},{\"loginname\":\"zf\",\"password\":\"userpass\",\"email\":\"822393@qq.com\"}}";  
-		String jsonStr = "{'person' : {'id':'1','name':'zhangsan','address':'12344'}'person1': {'id':'2','name':'lisi','address':'123455'}}";
+		String jsonStr1="{\"person\":[{\"name\":\"zhangfan\",\"address\":\"userpass\",\"id\":\"1\"}],'person1':{\"loginname\":\"zf\",\"password\":\"userpass\",\"email\":\"822393@qq.com\"}}";  
+		String jsonStr = "{'person' : {'id':'1','name':'zhangsan','address':'12344'},'person1': {'id':'2','name':'lisi','address':'123455'}}";
 		List<Person> list = JsonUtil.getPersons(jsonStr1);
-
+		
+		//json测试
+		boolean[] boolArray = new boolean[]{true,false,true};
+		JSONArray jsonArray1 = JSONArray.fromObject(boolArray);
+		System.out.println(jsonArray1);
+		
+		List list1 = new ArrayList();
+		list1.add("first");
+		list1.add("seconde");
+		JSONArray jsonArray2 = JSONArray.fromObject(list1);
+		System.out.println(jsonArray2);
+		
+		JSONArray jsonArray3 = JSONArray.fromObject("['json', 'is', 'easy']");
+		System.out.println(jsonArray3);
+		
+		Map map = new HashMap();
+		map.put("name", "json");
+		map.put("bool", Boolean.TRUE);
+		map.put( "int", new Integer(1) );       
+		map.put( "arr", new String[]{"a","b"} );  
+		map.put("func", "function(i){return this.arr[i]}");
+		JSONObject json1 = JSONObject.fromObject(map);
+		System.out.println(json1);
+		
+		Person person = new Person();
+		person.setId(1);
+		person.setName("zhangsan");
+		person.setAddress("192.168.19.100");
+		JSONObject jsonObject1 = JSONObject.fromObject(person);
+		System.out.println(jsonObject1);
+		
+		List<Person> list2 = new ArrayList<Person>();
+		Person person1 = new Person();
+		person1.setId(2);
+		person1.setName("zhangsan");
+		person1.setAddress("192.168.130.222");
+		Person person2 = new Person();
+		person2.setId(3);
+		person2.setName("lisi");
+		person2.setAddress("192.168.0.173");
+		Person person3 = new Person();
+		person3.setId(4);
+		person3.setName("wangwu");
+		person3.setAddress("192.168.19.69");
+		list2.add(person1);
+		list2.add(person2);
+		list2.add(person3);
+		JSONArray ja = JSONArray.fromObject(list2);
+		System.out.println(ja+"==="+ja.toString());
+		
+		
+	
 	}
 
 }
